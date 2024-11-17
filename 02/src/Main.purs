@@ -14,21 +14,21 @@ data Msg = Tick | Stop
 
 main ∷ Effect Unit
 main = do
-  pid ∷ Process Msg <- spawnLink startWorker
+  pid ∷ Process Msg ← spawnLink startWorker
   sleep (Milliseconds 5000.0)
   send pid Stop
 
 startWorker ∷ ProcessM Msg Unit
 startWorker = do
-  me ∷ Process Msg <- self
+  me ∷ Process Msg ← self
   void $ liftEffect $ sendEveryTo (Milliseconds 500.0) Tick me
   workerLoop
 
 workerLoop ∷ ProcessM Msg Unit
 workerLoop = do
-  msg ∷ Msg <- receive
+  msg ∷ Msg ← receive
   case msg of
-    Stop -> pure unit
-    Tick -> do
+    Stop → pure unit
+    Tick → do
       liftEffect $ log "Tick"
       workerLoop

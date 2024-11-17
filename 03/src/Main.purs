@@ -16,9 +16,9 @@ data Msg = Pong
 --     Pong → liftEffect $ log $ "Received Pong"
 
 ping ∷ ProcessM Msg Unit
-ping = receive >>= \_ -> liftEffect $ log $ "Received pong."
+ping = receive >>= \_ → liftEffect $ log $ "Received pong."
 
-main :: Effect Unit
+main ∷ Effect Unit
 main = do
   pPing ← spawn ping
   pPing ! Pong

@@ -1,6 +1,6 @@
 module MyApp where
 
-import Pinto.App as App
 import MySup as Sup
+import Pinto.App as App
 
 start = App.simpleStart Sup.startLink
