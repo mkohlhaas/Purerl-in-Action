@@ -22,15 +22,19 @@ Build
 ```shell
 rebar3 clean
 rebar3 compile
-erl -pa _build/default/lib/my_amazing_app/ebin/
 ```
 
 Erlang Shell
 ```
+erl -pa _build/default/lib/my_amazing_app/ebin/
+
 Eshell V14.0 (press Ctrl+G to abort, type help(). for help)
 1> application:start(my_amazing_app).
 ok
-2> application:stop().
+# call genserver API function
+2> (myGenServer@ps:doSomething())().
+<<"Hi">>
+3> application:stop(my_amazing_app).
 ```
 
 Self-contained release
@@ -42,13 +46,4 @@ rebar3 tar
 ./bin/my_amazing_app console
 ./bin/my_amazing_app pid
 ./bin/my_amazing_app stop
-```
-
-Usage
------
-
-```shell
-# call genserver API function
-(myGenServer@ps:doSomething())().
-<<"Hi">>
 ```

@@ -7,16 +7,10 @@ import Effect (Effect)
 import Effect.Class (liftEffect)
 import Effect.Console (log)
 import Erl.Kernel.Erlang (sleep)
-import Erl.Process (Process, ProcessM, receive, self, send, spawnLink)
+import Erl.Process (Process, ProcessM, receive, self, spawnLink, (!))
 import Pinto.Timer (sendEveryTo)
 
 data Msg = Tick | Stop
-
-main ∷ Effect Unit
-main = do
-  pid ∷ Process Msg ← spawnLink startWorker
-  sleep (Milliseconds 5000.0)
-  send pid Stop
 
 startWorker ∷ ProcessM Msg Unit
 startWorker = do
@@ -26,9 +20,15 @@ startWorker = do
 
 workerLoop ∷ ProcessM Msg Unit
 workerLoop = do
-  msg ∷ Msg ← receive
+  msg ← receive
   case msg of
     Stop → pure unit
     Tick → do
       liftEffect $ log "Tick"
       workerLoop
+
+main ∷ Effect Unit
+main = do
+  pid ← spawnLink startWorker
+  sleep (Milliseconds 5000.0)
+  pid ! Stop

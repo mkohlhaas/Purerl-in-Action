@@ -10,13 +10,13 @@ import Erl.Process (ProcessM, receive, spawn, (!))
 data Msg = Pong
 
 -- ping ∷ ProcessM Msg Unit
--- ping = do
---   msg ← receive
---   case msg of
---     Pong → liftEffect $ log $ "Received Pong"
+-- ping = receive >>= \_ → liftEffect $ log $ "Received pong."
 
 ping ∷ ProcessM Msg Unit
-ping = receive >>= \_ → liftEffect $ log $ "Received pong."
+ping = do
+  msg ← receive
+  case msg of
+    Pong → liftEffect $ log $ "Ping"
 
 main ∷ Effect Unit
 main = do

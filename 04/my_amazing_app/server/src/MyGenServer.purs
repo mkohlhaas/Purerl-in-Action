@@ -12,6 +12,7 @@ import Pinto.Types (RegistryReference(..))
 
 type EmptyGenServerStartArgs = {}
 
+-- genserver's state must be a record type
 type State = {}
 
 serverName ∷ RegistryName (ServerType Unit Unit Unit State)
